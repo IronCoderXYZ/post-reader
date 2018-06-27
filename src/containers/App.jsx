@@ -9,7 +9,9 @@ import PostList from '../components/PostList';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { posts: [], error: null, darkMode: false };
+    this.state = {
+      posts: [], error: null, darkMode: false, loading: true,
+    };
     this.toggleDarkMode = this.toggleDarkMode.bind(this);
   }
 
@@ -17,8 +19,8 @@ class App extends Component {
     const url = 'https://thewirecutter.com/wp-json/wp/v2/posts';
     axios
       .get(url)
-      .then(({ data }) => this.setState({ posts: data }))
-      .catch(error => this.setState({ error }));
+      .then(({ data }) => this.setState({ posts: data, loading: false }))
+      .catch(error => this.setState({ error, loading: false }));
   }
 
   toggleDarkMode() {
@@ -27,21 +29,30 @@ class App extends Component {
   }
 
   render() {
-    const { posts, error, darkMode } = this.state;
+    const {
+      posts, error, darkMode, loading,
+    } = this.state;
+
     return (
       <Fragment>
         <Header darkMode={darkMode} toggleDarkMode={this.toggleDarkMode} />
-        <Row>
-          <Col xs="8" className="mx-auto">
-            {error ? (
-              <p>
-                An error occured
-              </p>
-            ) : (
-              <PostList posts={posts} darkMode={darkMode} />
-            )}
-          </Col>
-        </Row>
+        {loading ? (
+          <p>
+            Loading
+          </p>
+        ) : (
+          <Row>
+            <Col xs="8" className="mx-auto">
+              {error ? (
+                <p>
+                  An error occured
+                </p>
+              ) : (
+                <PostList posts={posts} darkMode={darkMode} />
+              )}
+            </Col>
+          </Row>
+        )}
       </Fragment>
     );
   }

@@ -3,7 +3,7 @@ import React from 'react';
 // Local Imports
 import Post from './Post';
 
-export default ({ posts }) => (
+export default ({ posts, darkMode }) => (
   posts.map(({
     id, author, date, title, content, excerpt, link,
   }) => (
@@ -15,6 +15,7 @@ export default ({ posts }) => (
       author={author}
       content={content}
       excerpt={excerpt}
+      darkMode={darkMode}
     />
   ))
 );

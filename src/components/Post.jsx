@@ -23,18 +23,24 @@ export default class Post extends Component {
   render() {
     const { showDetails } = this.state;
     const {
-      author, title, content, excerpt, link,
+      darkMode, author, date, title, content, excerpt, link,
     } = this.props;
 
+    const formattedDate = `${date.slice(0, -9)} ${date.slice(11)}`;
+    const cardStyle = darkMode ? 'mt-4 bg-dark text-light' : 'mt-4';
+
     return (
-      <Card body className="mt-4 bg-dark text-light">
+      <Card body className={cardStyle}>
         <CardTitle>
           {title.rendered}
         </CardTitle>
         <p className="my-2">
           {`Published By: ${author}`}
+          <br />
+          {`Date: ${formattedDate}`}
         </p>
-        <section
+        <div
+          style={{ overflow: 'none' }}
           dangerouslySetInnerHTML={{
             __html: showDetails ? content.rendered : excerpt.rendered
           }}
@@ -56,16 +62,20 @@ export default class Post extends Component {
   }
 }
 Post.propTypes = {
+  date: PropTypes.string,
   link: PropTypes.string,
   title: PropTypes.string,
+  darkMode: PropTypes.bool,
   author: PropTypes.string,
   content: PropTypes.string,
   excerpt: PropTypes.string,
 };
 Post.defaultProps = {
+  date: '',
   link: '',
   title: '',
   author: '',
   content: '',
   excerpt: '',
+  darkMode: false,
 };
