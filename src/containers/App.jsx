@@ -4,6 +4,7 @@ import { Row, Col } from 'reactstrap';
 import React, { Component, Fragment } from 'react';
 // Local Imports
 import Header from '../components/Header';
+import PostList from '../components/PostList';
 
 class App extends Component {
   constructor(props) {
@@ -26,10 +27,21 @@ class App extends Component {
   }
 
   render() {
-    const { darkMode } = this.state;
+    const { posts, error, darkMode } = this.state;
     return (
       <Fragment>
         <Header darkMode={darkMode} toggleDarkMode={this.toggleDarkMode} />
+        <Row>
+          <Col xs="8" className="mx-auto">
+            {error ? (
+              <p>
+                An error occured
+              </p>
+            ) : (
+              <PostList posts={posts} darkMode={darkMode} />
+            )}
+          </Col>
+        </Row>
       </Fragment>
     );
   }
